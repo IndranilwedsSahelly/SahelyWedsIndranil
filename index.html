@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sahely & Indranil - Wedding Evite</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background: linear-gradient(135deg, #fff7ed, #fff1e0, #fff8f0); /* soft gold/red gradient */
+      color: #b91c1c; /* deep red primary text */
+      text-align: center;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+    h1, h2 { margin: 0.5em 0; }
+
+    /* Landscape */
+    .landscape {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 300%;
+      height: 200px;
+      background: url('images/imagem.png') repeat-x;
+      background-size: contain;
+      animation: moveLandscape 60s linear infinite;
+      opacity: 0.12;
+      z-index: 0;
+    }
+    @keyframes moveLandscape {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-33.3%); }
+    }
+
+    /* Sparkles */
+    .sparkle {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      background: #fbbf24; /* gold sparkles */
+      border-radius: 50%;
+      top: -10px;
+      animation: fall 12s linear infinite;
+      opacity: 0.6;
+      z-index: 0;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-10px); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translateY(110vh); opacity: 0; }
+    }
+
+    .hero { padding: 2rem 1rem; position: relative; z-index: 1; }
+    .chibis { display: flex; align-items: center; justify-content: center; gap: 1rem; }
+
+    /* Stamps */
+    .stamp {
+      border: 2px dashed #b91c1c; /* red border */
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: inline-block;
+      margin: 1rem;
+      background: rgba(255,215,0,0.15); /* light gold background */
+      position: relative;
+      z-index: 1;
+      width: 280px;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+    }
+    .stamp h2 { color: #b91c1c; }
+
+    /* Manga Panels */
+    .manga {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    .panel {
+      border: 1px solid #fbbf24; /* gold border */
+      border-radius: 10px;
+      padding: 1rem;
+      background: rgba(255,248,220,0.8); /* soft gold */
+      cursor: pointer;
+    }
+    .panel img {
+      width: 100%;
+      max-height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Notes */
+    .notes {
+      margin: 2rem;
+      padding: 1rem;
+      border: 1px solid #b91c1c;
+      border-radius: 10px;
+      background: rgba(255,248,220,0.8);
+      text-align: left;
+      display: inline-block;
+      position: relative;
+      z-index: 1;
+    }
+    footer {
+      margin-top: 3rem;
+      padding-bottom: 5rem;
+      font-size: 0.8rem;
+      opacity: 0.7;
+      position: relative;
+      z-index: 1;
+    }
+    .motorcycle {
+      position: relative;
+      width: 120px;
+      margin: 0 auto;
+      opacity: 0.1;
+      z-index: 1;
+    }
+
+    /* RSVP Button + Hearts */
+    .rsvp-btn {
+      margin: 1.5rem auto;
+      padding: 0.8rem 1.5rem;
+      font-size: 1.2rem;
+      background: #b91c1c;
+      color: #fbbf24;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .heart {
+      position: absolute;
+      font-size: 1.2rem;
+      animation: float 3s linear infinite;
+      color: #fbbf24;
+      opacity: 0;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-80px); opacity: 0; }
+    }
+
+    /* Modal (RSVP + Image) */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+    }
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      width: 90%;
+      max-width: 400px;
+      text-align: left;
+      position: relative;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #b91c1c;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+    }
+    button.submit-btn {
+      background: #b91c1c;
+      color: #fbbf24;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+
+    /* Image Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      align-items: center;
+      justify-content: center;
+      z-index: 4;
+    }
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="landscape"></div>
+  <div id="sparkles"></div>
+
+  <div class="hero">
+    <div class="chibis">
+      <!-- Chibi Bride -->
+      <svg viewBox="0 0 120 120" width="100">
+        <circle
+        cx="60"
+        cy="60"
+        r="58"
+        fill="#fff5f5"
+        stroke="#f43f5e"
+        strokeWidth="3"
+      />
+      <circle cx="60" cy="55" r="20" fill="#ffe4e6" />
+      <circle cx="52" cy="52" r="3" fill="#111" />
+      <circle cx="68" cy="52" r="3" fill="#111" />
+      <path
+        d="M50 64 Q60 70 70 64"
+        stroke="#111"
+        strokeWidth="2"
+        fill="none"
+      />
+      <path
+        d="M30 85 H90 V100 Q60 110 30 100 Z"
+        fill="#f43f5e"
+      />
+      <path
+        d="M30 80 Q60 70 90 80"
+        stroke="#fb7185"
+        strokeWidth="5"
+        fill="none"
+      />
+      <circle cx="60" cy="40" r="3" fill="#b91c1c" />
+      </svg>
+      <span style="font-size:2rem; color:#fbbf24;">❤</span>
+      <!-- Chibi Groom -->
+      <svg viewBox="0 0 120 120" width="100">
+           <circle
+        cx="60"
+        cy="60"
+        r="58"
+        fill="#fff7ed"
+        stroke="#f59e0b"
+        strokeWidth="3"
+      />
+      <circle cx="60" cy="55" r="20" fill="#ffedd5" />
+      <circle cx="52" cy="52" r="3" fill="#111" />
+      <circle cx="68" cy="52" r="3" fill="#111" />
+      <path
+        d="M50 64 Q60 70 70 64"
+        stroke="#111"
+        strokeWidth="2"
+        fill="none"
+      />
+      <rect x="35" y="80" width="50" height="20" rx="10" fill="#fbbf24" />
+      <path
+        d="M40 80 Q60 72 80 80"
+        stroke="#f59e0b"
+        strokeWidth="5"
+        fill="none"
+      />
+      <polygon points="60,30 68,40 52,40" fill="#f59e0b" />
+      </svg>
+    </div>
+    <span style="color:#630B94;"><h1>Dipankar Basu</h1>
+    <h2>Requests your most gracious presence at the wedding & reception of</h2>
+    <span style="color:#b91c1c;"><h1>Indranil Basu</h1> <h2>S/o Late Mrs Sumana Basu and Mr Dipankar Basu</h2> & <h1>Sahelly Roy Chowdhury</h1> <h2>D/o Mrs Lina Roy Chowdhury and Mr Amitava Roy Chowdhury </h2></span>
+  </div>
+
+  <!-- Event Stamps -->
+  <div>
+    <div class="stamp">
+      <h2>Wedding Ceremony</h2>
+      <p>Saturday, <b>24 January 2026</b><br/>Magh 10, 1432</p>
+      <p><a href="https://www.google.com/maps/search/?api=1&query=White%20Banquet%2C%20Lake%20Gardens%2C%20Kolkata%20700045" target="_blank">📍 White Banquet, Lake Gardens, Kolkata</a></p>
+      <p>Lake Garden, 162/B/280, opposite Arambagh food mart, Lake Gardens, Kolkata, West Bengal 700045</p>
+    </div>
+    <div class="stamp">
+      <h2>Reception</h2>
+      <p>Monday, <b>26 January 2026</b><br/>Magh 12, 1432</p>
+      <p><a href="https://www.google.com/maps/search/?api=1&query=The%20Conclave%20Verde%2C%20The%20Condoville%2C%20Kolkata%20700094" target="_blank">📍 Conclave Verde, Condoville, Kolkata</a></p>
+      <p>The Condoville, Budherhat Rd, 2052, Chak Garia, Panchasayar, Upohar, Kolkata, West Bengal 700094</p>
+    </div>
+  </div>
+
+  <!-- RSVP Button -->
+  <button class="rsvp-btn" id="rsvpBtn">Let us know when you are coming</button>
+
+
+  <!-- Notes -->
+  <div class="notes">
+    <ul>
+      <li>Blessings over boxes—your presence is our gift!</li>
+      <li>Attire - Come as you are.</li>
+      <li>Kindly RSVP via button (above) or call/text (9900439477).</li>
+    </ul>
+  </div>
+
+  <!-- Footer -->
+  <footer>Hoping to see you there✨</footer>
+ <div class="motorcycle">
+  <svg class="hermes" viewBox="0 0 300 150" width="220" xmlns="http://www.w3.org/2000/svg">
+    <!-- Wheels -->
+    <circle class="wheel" cx="80" cy="110" r="25" stroke="#111" stroke-width="3" fill="none"/>
+    <circle class="wheel" cx="220" cy="110" r="25" stroke="#111" stroke-width="3" fill="none"/>
+
+    <!-- Frame -->
+    <path d="M80 110 L120 80 L180 80 L220 110" stroke="#111" stroke-width="3" fill="none"/>
+
+    <!-- Seat -->
+    <path d="M120 78 Q150 60 180 78" stroke="#111" stroke-width="3" fill="none"/>
+
+    <!-- Fuel Tank -->
+    <ellipse cx="150" cy="70" rx="18" ry="10" stroke="#111" stroke-width="2" fill="none"/>
+
+    <!-- Handlebars -->
+    <line x1="180" y1="78" x2="200" y2="50" stroke="#111" stroke-width="3"/>
+    <line x1="200" y1="50" x2="210" y2="55" stroke="#111" stroke-width="3"/>
+
+    <!-- Headlight -->
+    <circle cx="215" cy="55" r="7" stroke="#111" stroke-width="2" fill="none"/>
+  </svg>
+</div>
+
+
+  <!-- Modal for RSVP -->
+  <div class="modal" id="rsvpModal" style="display:none;">
+    <div class="modal-content">
+      <span class="close-btn" id="closeModal">✖</span>
+      <h2>RSVP</h2>
+      <form>
+        <label>Your Name</label>
+        <input type="text" required />
+        <label>Which event will you attend?</label>
+        <select>
+          <option>Wedding Ceremony (24 Jan)</option>
+          <option>Reception (26 Jan)</option>
+          <option>Both</option>
+        </select>
+        <label>How many guests in total?</label>
+        <input type="number" min="1" max="10" />
+        <button type="submit" class="submit-btn">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox" id="lightbox" style="display:none;">
+    <span class="lightbox-close" id="closeLightbox">✖</span>
+    <img id="lightboxImg" src="" alt="Expanded Image"/>
+  </div>
+
+  <!-- Background music -->
+  <audio src="fusion-track.mp3" autoplay loop></audio>
+
+  <script>
+    // RSVP Modal
+    const rsvpBtn = document.getElementById("rsvpBtn");
+    const modal = document.getElementById("rsvpModal");
+    const closeBtn = document.getElementById("closeModal");
+    rsvpBtn.addEventListener("click", () => {
+      modal.style.display = "flex";
+      spawnHearts(rsvpBtn);
+    });
+    closeBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    // Submit RSVP to Google Sheets
+    const form = document.getElementById("rsvpForm");
+    const msg = document.getElementById("formMsg");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      try {
+        await fetch("https://script.google.com/macros/s/AKfycbz7Ugh1HJzqRimtmIMduXxagq3VQfn6boYuPyI-3ViXY0blMFfnPHfXTWwkoySli5ro/exec", { method: "POST", body: formData });
+        msg.style.display = "block";
+        form.reset();
+      } catch (err) {
+        msg.style.display = "block";
+        msg.style.color = "red";
+        msg.textContent = "❌ Error: Unable to submit RSVP.";
+      }
+    });
+
+    function spawnHearts(button) {
+      for (let i = 0; i < 6; i++) {
+        const heart = document.createElement("span");
+        heart.classList.add("heart");
+        heart.textContent = "❤";
+        heart.style.left = Math.random() * 80 + "%";
+        heart.style.animationDuration = 2 + Math.random() * 2 + "s";
+        button.appendChild(heart);
+        setTimeout(() => heart.remove(), 3000);
+      }
+    }
+
+    // Sparkles generator
+    const sparkleContainer = document.getElementById("sparkles");
+    for (let i = 0; i < 25; i++) {
+      const s = document.createElement("div");
+      s.className = "sparkle";
+      s.style.left = Math.random() * 100 + "vw";
+      s.style.animationDuration = 8 + Math.random() * 8 + "s";
+      sparkleContainer.appendChild(s);
+    }
+
+    // Manga panel lightbox
+    const panels = document.querySelectorAll('.panel');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const closeLightbox = document.getElementById('closeLightbox');
+
+    panels.forEach(panel => {
+      panel.addEventListener('click', () => {
+        const src = panel.getAttribute('data-img');
+        lightboxImg.src = src;
+        lightbox.style.display = 'flex';
+      });
+    });
+    closeLightbox.addEventListener('click', () => {
+      lightbox.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
