@@ -405,9 +405,13 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const formData = new FormData(form);
   try {
-    await fetch("https://script.google.com/macros/s/AKfycbz7Ugh1HJzqRimtmIMduXxagq3VQfn6boYuPyI-3ViXY0blMFfnPHfXTWwkoySli5ro/exec", {
+    await fetch("https://script.google.com/macros/s/AKfycbzCdfIcdpvS_oxC17OjkmuIcgXhz-s8N9_WtIiFDRJeg8vLByi3fDO5kdWhCY6wP0yf/exec", {
       method: "POST",
-      body: formData
+        body: new URLSearchParams({
+            name: formData.get("name"),
+            event: formData.get("event"),
+            guests: formData.get("guests"),
+          })
     });
     msg.style.display = "block";
     msg.style.color = "green";
@@ -462,3 +466,8 @@ form.addEventListener("submit", async (e) => {
   </script>
 </body>
 </html>
+
+  </script>
+</body>
+</html>
+
