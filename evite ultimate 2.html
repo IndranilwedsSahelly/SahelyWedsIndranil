@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wedding Invite — Bengali & English Switch</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f7efe6;
+      --card-bg: #fffdfa;
+      --accent:#b22222;
+      --shadow: rgba(0,0,0,0.08);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+      font-family:'Hind Siliguri', system-ui, sans-serif;
+      background:var(--bg);
+      padding:40px;
+      perspective: 1200px;
+      overflow:auto;
+    }
+    .invite-card{
+      width:960px;max-width:96%;
+      background:var(--card-bg);
+      border-radius:26px;
+      box-shadow:0 18px 40px var(--shadow);
+      position:relative;
+      overflow:hidden;
+      padding:44px;
+      display:grid;
+      grid-template-columns:1fr 380px;
+      gap:26px;
+      transition:transform 0.2s ease, box-shadow 0.2s ease, background-position 0.2s ease;
+      background-image: url('images/card_background.jpg'); /* local background image */
+      background-size: cover;
+      background-position: center;
+    }
+
+    .invite-card::before{
+      content:"";
+      position:absolute;
+      top:-50%;left:-50%;
+      width:200%;height:200%;
+      background:radial-gradient(circle, rgba(255,215,0,0.3), rgba(255,105,180,0.25), rgba(30,144,255,0.25));
+      animation: glowPulse 6s ease-in-out infinite;
+      z-index:0;
+    }
+    .invite-card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:rgba(255,253,250,0.10); /* semi-transparent overlay for text readability */
+      border-radius:26px;
+      z-index:1;
+    }
+    .invite-card > *{position:relative;z-index:2}
+
+    @keyframes glowPulse{
+      0%,100%{opacity:0.2;transform:scale(1)}
+      50%{opacity:0.6;transform:scale(1.05)}
+    }
+
+    .floral{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:8px;position:relative}
+    .floral img{max-width:100%;border-radius:18px;box-shadow:0 6px 16px rgba(0,0,0,0.08)}
+
+    .details{padding:12px 18px}
+    .host{font-size:14px;color:#6b4b3a}
+    h1{margin:8px 0 6px;font-size:28px;letter-spacing:1px;color:var(--accent)}
+    .names{font-size:26px;font-weight:700;color:#4b2e2e;margin-bottom:8px}
+    .body{font-size:18px;font-weight:900;color:#4b2e2e;margin-bottom:8px}
+
+    /* Festive font for English titles & names */
+    h1[data-en], .names[data-en]{
+      font-family: 'Great Vibes', cursive;
+      font-weight:400;
+      font-size:36px;
+    }
+
+h1[data-en], .body[data-en]{
+      font-family: 'Great Vibes', cursive;
+      font-weight:400;
+      font-size:20px;
+    }
+
+    .info{background:linear-gradient(180deg, rgba(233,196,106,0.06), transparent);padding:14px;border-radius:12px;margin-top:10px}
+    .info p{margin:6px 0;color:#433733}
+
+    .side{display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:8px 12px;border-left:1px dashed rgba(0,0,0,0.04)}
+    .rsvp{width:100%;background:rgba(47,111,78,0.04);padding:18px;border-radius:12px;text-align:center}
+    .rsvp h3{margin:0 0 6px;color:#2f6f4e}
+    .rsvp p{margin:0 0 12px;font-size:14px}
+    .btn{display:inline-block;padding:10px 18px;border-radius:999px;background:linear-gradient(90deg,var(--accent),#8b0000);color:white;text-decoration:none;font-weight:600;position:relative;overflow:hidden}
+    .btn::before{
+      content:"";
+      position:absolute;
+      top:0;left:-100%;
+      width:100%;height:100%;
+      background:linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+      transition:all 0.5s;
+    }
+    .btn:hover::before{left:100%}
+
+    .lang-switch{position:absolute;top:16px;right:16px;z-index:3}
+    .lang-switch button{padding:6px 12px;border-radius:6px;border:none;background:var(--accent);color:white;font-size:14px;cursor:pointer}
+
+    .countdown{margin-top:16px;font-size:18px;font-weight:600;color:#8b0000;text-align:center}
+
+    @media (max-width:920px){.invite-card{grid-template-columns:1fr;padding:22px}.side{border-left:none;border-top:1px dashed rgba(0,0,0,0.04);padding-top:18px}}
+  </style>
+</head>
+<body>
+  <div class="invite-card" role="article" aria-label="Wedding Invite" id="inviteCard">
+    <div class="lang-switch">
+      <button id="toggleLang">বাংলায় দেখুন</button>
+    </div>
+
+    <div class="floral">
+      <img src="images/floral.png" alt="Decorative floral art">
+    </div>
+
+    <div class="details">
+      <div class="host" data-bn="বাসু পরিবারের তরফ থেকে" data-en="On behalf of the basu family">On behalf of the family</div>
+      <p data-bn="বিবাহ ও সংবর্ধনা অনুষ্ঠানে আপনার সদয় উপস্থিতি কামনা করছি" data-en="we request your gracious presence at the wedding and reception event of">we request your gracious presence at the wedding and reception event of </p>
+      <div class="names" data-bn="ইন্দ্রনীল বসু" data-en="Indranil Basu">Indranil Basu</div>
+
+ <div class="body" data-bn="প্রয়াত শ্রীমতি সুমনা বসু এবং শ্রী দীপঙ্কর বসুর পুত্র " data-en="Son of Late Mrs Sumana Basu and Mr Dipankar Basu">Son of Late Mrs Sumana Basu and Mr Dipankar Basu &  Sahelly Roy Chowdhury</div>
+
+<div class="names" data-bn="এবং সহেলী রায় চৌধুরী" data-en="& Sahelly Roy Chowdhury">& Sahelly Roy Chowdhury</div>
+
+ <div class="body" data-bn="মিসেস লিনা রায় চৌধুরী এবং মিস্টার অমিতাভ রায় চৌধুরীর কন্যা " data-en="Daughter of Mrs Lina Roy Chowdhury and Mr Amitava Roy Chowdhury">Daughter of Mrs Lina Roy Chowdhury and Mr Amitava Roy Chowdhury</div>
+
+
+      <div class="info" role="contentinfo">
+        <p><strong data-bn="তারিখ:" data-en="Date:">Date:</strong> <span data-bn="শুক্রবার, ২১ নভেম্বর ২০২৫" data-en="Friday, 21 November 2025">Friday, 21 November 2025</span></p>
+        <p><strong data-bn="সময়:" data-en="Time:">Time:</strong> <span data-bn="সন্ধ্যা ৭:০০" data-en="7:00 PM">7:00 PM</span></p>
+        <p><strong data-bn="স্থান:" data-en="Venue:">Venue:</strong> <span data-bn="বাংলা ভব্যসভা, ১২৩ জোড়া লেন, কলকাতা" data-en="Bangla Bhavan, 123 Jora Lane, Kolkata">Bangla Bhavan, 123 Jora Lane, Kolkata</span></p>
+        <p data-bn="আপনার উপস্থিতি আমাদের জন্য আনন্দের ও আশীর্বাদের প্রতীক হবে।" data-en="Your presence will be a blessing and joy to us.">Your presence will be a blessing and joy to us.</p>
+      </div>
+
+      <p style="margin-top:14px;color:#6b4b3a;font-size:13px" data-bn="অনুগ্রহ করে RSVP করুন — নিচের বোতামটি ব্যবহার করে বা ফোন করুন: +91 98765 43210" data-en="Please RSVP — use the button below or call: +91 98765 43210">Please RSVP — use the button below or call: +91 98765 43210</p>
+
+      <div class="countdown" id="countdown" data-bn="বিবাহ শুরু হতে বাকি:" data-en="Countdown to Wedding:">Countdown to Wedding:</div>
+    </div>
+
+    <aside class="side" aria-label="RSVP & note">
+      <div class="rsvp">
+        <h3 data-bn="RSVP" data-en="RSVP">RSVP</h3>
+        <p data-bn="প্রতিশ্রুতি জানান — আসবেন/না আসবেন" data-en="Kindly confirm — Will Attend / Will Not Attend">Kindly confirm — Will Attend / Will Not Attend</p>
+        <a class="btn" href="mailto:invite@example.com?subject=RSVP%20-%20Wedding" data-bn="RSVP ইমেইল" data-en="RSVP Email">RSVP Email</a>
+      </div>
+
+      <div style="width:100%;text-align:center;margin-top:12px;color:#6b4b3a;font-size:13px">
+        <div style="font-weight:600;margin-bottom:6px" data-bn="পোশাক" data-en="Dress Code">Dress Code</div>
+        <div data-bn="রীতিনীতি অনুযায়ী শাড়ি/পাঞ্জাবি সাজ" data-en="Traditional Saree / Panjabi Attire">Traditional Saree / Panjabi Attire</div>
+      </div>
+
+      <div style="width:100%;text-align:center;margin-top:18px;font-size:12px;color:#8a6b5a">
+        <em data-bn="আপনি চাইলে নিমন্ত্রণপত্রটি প্রিন্ট করে আনতে পারেন।" data-en="You may bring a printed copy of this invitation if you like.">You may bring a printed copy of this invitation if you like.</em>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    const btn = document.getElementById('toggleLang');
+    let lang = 'en';
+    btn.addEventListener('click', ()=>{
+      lang = lang === 'bn' ? 'en' : 'bn';
+      document.querySelectorAll('[data-bn]').forEach(el=>{
+        el.textContent = el.getAttribute('data-' + lang);
+      });
+      btn.textContent = lang === 'bn' ? 'Switch to English' : 'বাংলায় দেখুন';
+    });
+
+    // Tilt effect with parallax background
+    const card = document.getElementById('inviteCard');
+    document.addEventListener('mousemove', (e)=>{
+      const x = (e.clientX - window.innerWidth / 2) / 60; 
+      const y = (e.clientY - window.innerHeight / 2) / 60;
+      card.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+      card.style.boxShadow = `${x*2}px ${y*2}px 40px rgba(0,0,0,0.15)`;
+
+      // Parallax background shift
+      const bgX = 50 + x * 2;
+      const bgY = 50 + y * 2;
+      card.style.backgroundPosition = `${bgX}% ${bgY}%`;
+    });
+    document.addEventListener('mouseleave', ()=>{
+      card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+      card.style.boxShadow = `0 18px 40px var(--shadow)`;
+      card.style.backgroundPosition = `center`;
+    });
+
+    // Countdown Timer
+    const countdown = document.getElementById('countdown');
+    const weddingDate = new Date("November 21, 2025 19:00:00").getTime();
+
+    setInterval(()=>{
+      const now = new Date().getTime();
+      const distance = weddingDate - now;
+
+      if(distance < 0){
+        countdown.textContent = lang === 'bn' ? 'বিবাহ শুরু হয়েছে!' : 'The wedding has begun!';
+        return;
+      }
+
+      const days = Math.floor(distance / (1000*60*60*24));
+      const hours = Math.floor((distance % (1000*60*60*24))/(1000*60*60));
+      const minutes = Math.floor((distance % (1000*60*60))/(1000*60));
+      const seconds = Math.floor((distance % (1000*60))/1000);
+
+      const label = lang === 'bn' ? 'বিবাহ শুরু হতে বাকি:' : 'Countdown to Wedding:';
+      countdown.textContent = `${label} ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }, 1000);
+  </script>
+</body>
+</html>
