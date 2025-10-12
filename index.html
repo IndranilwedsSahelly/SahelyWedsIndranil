@@ -178,6 +178,9 @@ text-align: center;
     .lang-switch{position:absolute;top:16px;right:16px;z-index:3}
     .lang-switch button{padding:6px 12px;border-radius:6px;border:none;background:var(--accent);color:white;font-size:14px;cursor:pointer}
 
+    .download-switch{position:absolute;top:16px;left:16px;z-index:3}
+    .download-switch button{padding:6px 12px;border-radius:6px;border:none;background:var(--accent);color:white;font-size:14px;cursor:pointer}
+
     .countdown{margin-top:16px;font-size:18px;font-weight:600;color:#8b0000;text-align:center}
 
 
@@ -239,6 +242,10 @@ text-align: center;
       <button id="toggleLang">বাংলায় দেখুন</button>
     </div>
 
+<div class="download-switch">
+      <button id="downloadjpgFileButton">download</button>
+    </div>
+    
     <div class="floral">
       <img src="images/floral.png" alt="Decorative floral art">
     </div>
@@ -393,6 +400,19 @@ form.addEventListener("submit", async (e) => {
       btn.textContent = lang === 'bn' ? 'Switch to English' : 'বাংলায় দেখুন';
     });
 
+document.getElementById('downloadjpgFileButton').addEventListener('click', function() {
+        // Specify the HTML file URL here
+        const fileUrl = 'images/SahelyandIndranil.jpg'; // The uploaded file
+
+        // Create an anchor element for downloading
+        const anchor = document.createElement('a');
+        anchor.href = fileUrl;
+        anchor.download = 'SahelyandIndranil.jpg'; // Specify the name for the downloaded file
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+    });
+    
     // Tilt effect with parallax background
     const card = document.getElementById('inviteCard');
     document.addEventListener('mousemove', (e)=>{
@@ -436,6 +456,7 @@ form.addEventListener("submit", async (e) => {
   </script>
 </body>
 </html>
+
 
 
 
